@@ -123,36 +123,50 @@ table {
   border-spacing: 0;
 }
 
-body {
+/* body {
   overflow: hidden;
+} */
+
+.container-boxes {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #f2f2f2;
 }
 
 .box {
   position: absolute;
-  background: #fff;
+  height: auto;
+  background: #f2f2f2;
   user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
+  border-width: 4px;
+  border-style: solid;
+  font-family: neue-haas-grotesk-display, sans-serif;
+  font-weight: 400;
   font-size: 3vw;
-  height: auto;
 }
 
 .box--pink {
-  color: #edc9a8;
-  border: 2px solid #edc9a8;
+  color: #f4c6a2;
+  border-color: #f4c6a2;
   width: 15vw;
+  padding: 4px 8px;
 }
 
 .box--pink svg {
   width: 2rem;
   height: 2rem;
+  margin-left: 10px;
 }
 
 .box--green {
-  color: #7cb47d;
-  border: 2px solid #7cb47d;
+  color: #6cb677;
+  border-color: #6cb677;
   border-radius: 40px;
-  width: 20vw;
+  padding: 6px 18px;
 }
