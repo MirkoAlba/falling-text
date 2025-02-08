@@ -1,3 +1,5 @@
+/* CSS reset */
+
 html,
 body,
 div,
@@ -86,7 +88,6 @@ video {
   font: inherit;
   vertical-align: baseline;
 }
-/* HTML5 display-role reset for older browsers */
 article,
 aside,
 details,
@@ -123,10 +124,6 @@ table {
   border-spacing: 0;
 }
 
-/* body {
-  overflow: hidden;
-} */
-
 .container-boxes {
   position: fixed;
   top: 0;
@@ -159,8 +156,8 @@ table {
 }
 
 .box--pink svg {
-  width: 2rem;
-  height: 2rem;
+  width: 2.5vw;
+  height: 2.5vw;
   margin-left: 10px;
 }
 
@@ -170,3 +167,8 @@ table {
   border-radius: 40px;
   padding: 6px 18px;
 }
+
+/* debug */
+/* .box--pink:nth-child(odd) {
+  border-color: red !important;
+} */
