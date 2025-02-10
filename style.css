@@ -204,3 +204,9 @@ table {
     width: 19vw;
   }
 }
+
+@media (min-width: 1440px) {
+  .box {
+    font-size: 3.5vw;
+  }
+}
