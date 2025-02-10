@@ -30,74 +30,49 @@
       const defaultObjectOptions = {
         angle: 0,
         restitution: 0.1,
-        friction: 0.8,
-        frictionAir: 0.05, // increasing the frictionAir will make the boxes fall faster
+        friction: 0.1,
+        frictionAir: 0.06, // increasing the frictionAir will make the boxes fall slower
         sleepThreshold: 60, // make bodies sleep once their velocity hits a certain threshold
       };
+
+      const DEGREE_45 = Math.PI / 4,
+        DEGREE_90 = Math.PI / 2,
+        DEGREE_180 = Math.PI,
+        DEGREE_270 = (Math.PI * 3) / 2,
+        DEGREE_360 = Math.PI * 2;
+
+      // X position starting point
+      var pixelStartingPoint = -1000;
 
       function mergeObjects(obj1, obj2) {
         return { ...obj1, ...obj2 };
       }
 
+      /*
+       *
+       * Responsive
+       *
+       */
+
+      // Mobile
       var boxesToRender = [
         // pink boxes over the green ones
         {
           type: "pink",
           text: "SKIP AD",
           x: window.innerWidth / 4.5,
-          y: -1100,
+          y: pixelStartingPoint - 1200,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
+            angle: DEGREE_45,
           }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 3.5,
-          y: -1100,
-          objectOptions: defaultObjectOptions,
         },
         {
           type: "pink",
           text: "SKIP AD",
           x: window.innerWidth / 3,
-          y: -1100,
+          y: pixelStartingPoint - 1200,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 2,
-          y: -1100,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.75,
-          y: -1100,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -1100,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 4,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -1100,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 4,
+            angle: -DEGREE_45,
           }),
         },
         // row
@@ -105,762 +80,937 @@
           type: "pink",
           text: "SKIP AD",
           x: window.innerWidth / 4.5,
-          y: -1000,
+          y: pixelStartingPoint - 1100,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
+            angle: DEGREE_90,
           }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 3.5,
-          y: -1000,
-          objectOptions: defaultObjectOptions,
         },
         {
           type: "pink",
           text: "SKIP AD",
           x: window.innerWidth / 3,
-          y: -1000,
+          y: pixelStartingPoint - 1100,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 2,
-          y: -1000,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.75,
-          y: -1000,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -1000,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 4,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -1000,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 4,
+            angle: -DEGREE_90,
           }),
         },
         // row
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 6,
-          y: -900,
+          x: window.innerWidth - window.innerWidth / 2,
+          y: pixelStartingPoint - 1000,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
+            angle: DEGREE_90,
           }),
         },
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 5,
-          y: -900,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 4,
-          y: -900,
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint - 1000,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 3,
-          y: -900,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 2,
-          y: -900,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -900,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -900,
-          objectOptions: defaultObjectOptions,
-        },
-        // row
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 6,
-          y: -800,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 5,
-          y: -800,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 4,
-          y: -800,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 3,
-          y: -800,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 2,
-          y: -800,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -800,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -800,
-          objectOptions: defaultObjectOptions,
-        },
-        // row
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 6,
-          y: -700,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 5,
-          y: -700,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 4,
-          y: -700,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 3,
-          y: -700,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -700,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -700,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.1,
-          y: -700,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
+            angle: -DEGREE_90,
           }),
         },
         // row
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 6,
-          y: -600,
+          x: window.innerWidth - window.innerWidth / 2,
+          y: pixelStartingPoint - 900,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
+            angle: DEGREE_180,
           }),
         },
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 5,
-          y: -600,
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint - 900,
+          objectOptions: defaultObjectOptions,
+        },
+        // row
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth - window.innerWidth / 2,
+          y: pixelStartingPoint - 800,
+          objectOptions: defaultObjectOptions,
+        },
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint - 800,
+          objectOptions: defaultObjectOptions,
+        },
+        // row
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth - window.innerWidth / 2,
+          y: pixelStartingPoint - 700,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 4,
+            angle: DEGREE_180,
           }),
         },
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 4,
-          y: -600,
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint - 700,
+          objectOptions: defaultObjectOptions,
+        },
+        // row
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth - window.innerWidth / 2,
+          y: pixelStartingPoint - 600,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 4,
+            angle: DEGREE_45,
+          }),
+        },
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint - 600,
+          objectOptions: mergeObjects(defaultObjectOptions, {
+            angle: -DEGREE_90,
+          }),
+        },
+        // row
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth / 4.5,
+          y: pixelStartingPoint - 500,
+          objectOptions: mergeObjects(defaultObjectOptions, {
+            angle: DEGREE_90,
           }),
         },
         {
           type: "pink",
           text: "SKIP AD",
           x: window.innerWidth / 3,
-          y: -600,
-          objectOptions: defaultObjectOptions,
+          y: pixelStartingPoint - 500,
+          objectOptions: mergeObjects(defaultObjectOptions, {
+            angle: -DEGREE_90,
+          }),
         },
+        // row
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -600,
+          x: window.innerWidth / 4.5,
+          y: pixelStartingPoint - 400,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 4,
+            angle: DEGREE_90,
           }),
         },
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -600,
+          x: window.innerWidth / 3,
+          y: pixelStartingPoint - 400,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
+            angle: -DEGREE_90,
+          }),
+        },
+        // row
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth / 4.5,
+          y: pixelStartingPoint - 300,
+          objectOptions: mergeObjects(defaultObjectOptions, {
+            angle: DEGREE_90,
           }),
         },
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 1.1,
-          y: -600,
+          x: window.innerWidth / 3,
+          y: pixelStartingPoint - 300,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
+            angle: -DEGREE_90,
+          }),
+        },
+        // row
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth / 4.5,
+          y: pixelStartingPoint - 200,
+          objectOptions: mergeObjects(defaultObjectOptions, {
+            angle: DEGREE_90,
+          }),
+        },
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth / 3,
+          y: pixelStartingPoint - 200,
+          objectOptions: mergeObjects(defaultObjectOptions, {
+            angle: -DEGREE_90,
+          }),
+        },
+        // row
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth - window.innerWidth / 2,
+          y: pixelStartingPoint - 100,
+          objectOptions: mergeObjects(defaultObjectOptions, {
+            angle: DEGREE_45,
+          }),
+        },
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint - 100,
+          objectOptions: mergeObjects(defaultObjectOptions, {
+            angle: -DEGREE_90,
           }),
         },
         // green boxes
         {
           type: "green",
           text: "NO WONDER",
-          x: window.innerWidth / 5.25,
-          y: -500,
+          x: window.innerWidth / 4,
+          y: pixelStartingPoint,
           objectOptions: defaultObjectOptions,
         },
         {
           type: "green",
           text: "THE SKIP",
-          x: window.innerWidth / 4.5,
-          y: -500,
+          x: window.innerWidth / 4,
+          y: pixelStartingPoint,
           objectOptions: defaultObjectOptions,
         },
         {
           type: "green",
           text: "BUTTON",
           x: window.innerWidth / 4,
-          y: -500,
+          y: pixelStartingPoint,
           objectOptions: defaultObjectOptions,
         },
         {
           type: "green",
           text: "IS THE MOST",
           x: window.innerWidth / 3,
-          y: -500,
+          y: pixelStartingPoint,
           objectOptions: defaultObjectOptions,
         },
         {
           type: "green",
           text: "POPULAR",
           x: window.innerWidth / 2,
-          y: -500,
+          y: pixelStartingPoint,
           objectOptions: defaultObjectOptions,
         },
         {
           type: "green",
           text: "BUTTON",
-          x: window.innerWidth / 1.25,
-          y: -500,
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint,
           objectOptions: defaultObjectOptions,
         },
         {
           type: "green",
           text: "EVER",
-          x: window.innerWidth / 1.25,
-          y: -500,
+          x: window.innerWidth - window.innerWidth / 6,
+          y: pixelStartingPoint,
           objectOptions: defaultObjectOptions,
         },
         // pink boxes under the green ones
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 6,
-          y: -400,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 5,
-          y: -400,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
           x: window.innerWidth / 4,
-          y: -400,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
+          y: pixelStartingPoint + 100,
+          objectOptions: defaultObjectOptions,
         },
         {
           type: "pink",
           text: "SKIP AD",
           x: window.innerWidth / 3,
-          y: -400,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 2,
-          y: -400,
+          y: pixelStartingPoint + 200,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -400,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -400,
-          objectOptions: defaultObjectOptions,
-        },
-        // 2nd row
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 6,
-          y: -300,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 5,
-          y: -300,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 4,
-          y: -300,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 3,
-          y: -300,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -300,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -300,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.1,
-          y: -300,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
-          }),
-        },
-        // 3rd row
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 6,
-          y: -200,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 5,
-          y: -200,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 4,
-          y: -200,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 3,
-          y: -200,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -200,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -200,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.1,
-          y: -200,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI / 2,
+            angle: DEGREE_180,
           }),
         },
         // row
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 6,
-          y: -100,
-          objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
-          }),
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 5,
-          y: -100,
+          x: window.innerWidth - window.innerWidth / 2,
+          y: pixelStartingPoint + 300,
           objectOptions: defaultObjectOptions,
         },
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 4,
-          y: -100,
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint + 300,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
+            angle: DEGREE_180,
           }),
+        },
+        // row
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth / 4.5,
+          y: pixelStartingPoint + 400,
+          objectOptions: defaultObjectOptions,
         },
         {
           type: "pink",
           text: "SKIP AD",
           x: window.innerWidth / 3,
-          y: -100,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.5,
-          y: -100,
-          objectOptions: defaultObjectOptions,
-        },
-        {
-          type: "pink",
-          text: "SKIP AD",
-          x: window.innerWidth / 1.25,
-          y: -100,
+          y: pixelStartingPoint + 400,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
+            angle: DEGREE_180,
           }),
         },
+        // row
         {
           type: "pink",
           text: "SKIP AD",
-          x: window.innerWidth / 1.1,
-          y: -100,
+          x: window.innerWidth - window.innerWidth / 2,
+          y: pixelStartingPoint + 500,
+          objectOptions: defaultObjectOptions,
+        },
+        {
+          type: "pink",
+          text: "SKIP AD",
+          x: window.innerWidth - window.innerWidth / 4,
+          y: pixelStartingPoint + 500,
           objectOptions: mergeObjects(defaultObjectOptions, {
-            angle: Math.PI,
+            angle: DEGREE_180,
           }),
         },
       ];
 
-      if (window.innerHeight > 1080) {
-        const extraPinkBoxesOver = [
+      // Tablet
+      if (window.matchMedia("(min-width: 768px)").matches) {
+        boxesToRender = [
+          // pink boxes over the green ones
+          // row
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 6,
-            y: -1200,
+            x: window.innerWidth - window.innerWidth / 2,
+            y: pixelStartingPoint - 900,
             objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI / 2,
+              angle: DEGREE_180,
             }),
           },
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 5,
-            y: -1200,
+            x: window.innerWidth - window.innerWidth / 4,
+            y: pixelStartingPoint - 900,
             objectOptions: defaultObjectOptions,
           },
+          // row
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 4,
-            y: -1200,
+            x: window.innerWidth - window.innerWidth / 2,
+            y: pixelStartingPoint - 800,
             objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI,
+              angle: DEGREE_180,
             }),
           },
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 4,
-            y: -1200,
+            x: window.innerWidth - window.innerWidth / 4,
+            y: pixelStartingPoint - 800,
             objectOptions: defaultObjectOptions,
           },
+          // row
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 2,
-            y: -1200,
+            x: window.innerWidth - window.innerWidth / 2,
+            y: pixelStartingPoint - 700,
             objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI,
+              angle: DEGREE_180,
             }),
           },
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 1.5,
-            y: -1200,
+            x: window.innerWidth - window.innerWidth / 4,
+            y: pixelStartingPoint - 700,
+            objectOptions: defaultObjectOptions,
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth - window.innerWidth / 2,
+            y: pixelStartingPoint - 600,
             objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI / 4,
+              angle: DEGREE_45,
             }),
           },
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 1.25,
-            y: -1200,
+            x: window.innerWidth - window.innerWidth / 4,
+            y: pixelStartingPoint - 600,
             objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI / 4,
+              angle: -DEGREE_45,
             }),
           },
           // row
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 6,
-            y: -1300,
+            x: window.innerWidth / 4.5,
+            y: pixelStartingPoint - 500,
             objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI / 2,
-            }),
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 5,
-            y: -1300,
-            objectOptions: defaultObjectOptions,
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 4,
-            y: -1300,
-            objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI,
-            }),
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 4,
-            y: -1300,
-            objectOptions: defaultObjectOptions,
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 2,
-            y: -1300,
-            objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI,
-            }),
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 1.5,
-            y: -1300,
-            objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI / 4,
-            }),
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 1.25,
-            y: -1300,
-            objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI / 4,
-            }),
-          },
-        ];
-
-        const extraPinkBoxesUnder = [
-          // row
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 6,
-            y: 0,
-            objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI,
-            }),
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 5,
-            y: 0,
-            objectOptions: defaultObjectOptions,
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 4,
-            y: 0,
-            objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI,
+              angle: DEGREE_45,
             }),
           },
           {
             type: "pink",
             text: "SKIP AD",
             x: window.innerWidth / 3,
-            y: 0,
-            objectOptions: defaultObjectOptions,
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 1.5,
-            y: 0,
-            objectOptions: defaultObjectOptions,
-          },
-          {
-            type: "pink",
-            text: "SKIP AD",
-            x: window.innerWidth / 1.25,
-            y: 0,
+            y: pixelStartingPoint - 500,
             objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI,
+              angle: -DEGREE_45,
+            }),
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 4.5,
+            y: pixelStartingPoint - 400,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_45,
             }),
           },
           {
             type: "pink",
             text: "SKIP AD",
-            x: window.innerWidth / 1.1,
-            y: 0,
+            x: window.innerWidth / 3,
+            y: pixelStartingPoint - 400,
             objectOptions: mergeObjects(defaultObjectOptions, {
-              angle: Math.PI,
+              angle: -DEGREE_45,
+            }),
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 4.5,
+            y: pixelStartingPoint - 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_45,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 3,
+            y: pixelStartingPoint - 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_45,
+            }),
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 4.5,
+            y: pixelStartingPoint - 200,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_90,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 3,
+            y: pixelStartingPoint - 200,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_90,
+            }),
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth - window.innerWidth / 2,
+            y: pixelStartingPoint - 100,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_45,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth - window.innerWidth / 4,
+            y: pixelStartingPoint - 100,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_90,
+            }),
+          },
+          // green boxes
+          {
+            type: "green",
+            text: "NO WONDER",
+            x: window.innerWidth / 4,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "THE SKIP",
+            x: window.innerWidth / 4,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "BUTTON",
+            x: window.innerWidth / 4,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "IS THE MOST",
+            x: window.innerWidth / 2,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "POPULAR",
+            x: window.innerWidth / 2,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "BUTTON",
+            x: window.innerWidth - window.innerWidth / 3,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "EVER",
+            x: window.innerWidth - window.innerWidth / 3,
+            y: pixelStartingPoint + 200,
+            objectOptions: defaultObjectOptions,
+          },
+          // pink boxes under the green ones
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 4,
+            y: pixelStartingPoint + 100,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 4,
+            y: pixelStartingPoint + 200,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
             }),
           },
         ];
+      }
 
-        boxesToRender.unshift(...extraPinkBoxesOver);
-
-        boxesToRender = [...boxesToRender, ...extraPinkBoxesUnder];
+      // Desktop
+      if (window.matchMedia("(min-width: 1025px)").matches) {
+        boxesToRender = [
+          // pink boxes over the green ones
+          // row filler
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 6,
+            y: pixelStartingPoint - 700,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_45,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 2,
+            y: pixelStartingPoint - 700,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_45,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5,
+            y: pixelStartingPoint - 700,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_90,
+            }),
+          },
+          // row filler
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5,
+            y: pixelStartingPoint - 600,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_45,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5,
+            y: pixelStartingPoint - 500,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5,
+            y: pixelStartingPoint - 400,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_45,
+            }),
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 6,
+            y: pixelStartingPoint - 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_90,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 2,
+            y: pixelStartingPoint - 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 3.5,
+            y: pixelStartingPoint - 300,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5 + 200,
+            y: pixelStartingPoint - 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5 + 200,
+            y: pixelStartingPoint - 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 6,
+            y: pixelStartingPoint - 200,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_90,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 2,
+            y: pixelStartingPoint - 200,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 3.5,
+            y: pixelStartingPoint - 200,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 3.5,
+            y: pixelStartingPoint - 200,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_90,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 3.75,
+            y: pixelStartingPoint - 200,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5 + 200,
+            y: pixelStartingPoint - 200,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 6,
+            y: pixelStartingPoint - 100,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_45,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 2,
+            y: pixelStartingPoint - 100,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 3,
+            y: pixelStartingPoint - 100,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4,
+            y: pixelStartingPoint - 100,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5,
+            y: pixelStartingPoint - 100,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_90,
+            }),
+          },
+          // green boxes
+          {
+            type: "green",
+            text: "NO WONDER",
+            x: window.innerWidth / 5.25,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "THE SKIP",
+            x: window.innerWidth / 4.5,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "BUTTON",
+            x: window.innerWidth / 4,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "IS THE MOST",
+            x: window.innerWidth / 3,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "POPULAR",
+            x: window.innerWidth / 2,
+            y: pixelStartingPoint,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "BUTTON",
+            x: window.innerWidth - window.innerWidth / 4,
+            y: pixelStartingPoint + 200,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "green",
+            text: "EVER",
+            x: window.innerWidth - window.innerWidth / 6,
+            y: pixelStartingPoint + 200,
+            objectOptions: defaultObjectOptions,
+          },
+          // pink boxes under the green ones
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 6,
+            y: pixelStartingPoint + 200,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 2,
+            y: pixelStartingPoint + 200,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 3,
+            y: pixelStartingPoint + 200,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4,
+            y: pixelStartingPoint + 200,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5,
+            y: pixelStartingPoint + 200,
+            objectOptions: defaultObjectOptions,
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 6,
+            y: pixelStartingPoint + 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_90,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 2,
+            y: pixelStartingPoint + 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 3,
+            y: pixelStartingPoint + 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_45,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4,
+            y: pixelStartingPoint + 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_45,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5 + 200,
+            y: pixelStartingPoint + 300,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_45,
+            }),
+          },
+          // row
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: window.innerWidth / 6,
+            y: pixelStartingPoint + 400,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: -DEGREE_90,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 2,
+            y: pixelStartingPoint + 400,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 3,
+            y: pixelStartingPoint + 400,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4,
+            y: pixelStartingPoint + 400,
+            objectOptions: defaultObjectOptions,
+          },
+          {
+            type: "pink",
+            text: "SKIP AD",
+            x: (window.innerWidth / 6) * 4.5 + 200,
+            y: pixelStartingPoint + 400,
+            objectOptions: mergeObjects(defaultObjectOptions, {
+              angle: DEGREE_180,
+            }),
+          },
+        ];
       }
 
       const containerBoxes = document.querySelector(".container-boxes");
@@ -904,6 +1054,14 @@
           enableSleeping: true,
         }),
         world = engine.world;
+
+      // Set the speed of the falling texts
+      world.gravity.y = 0.7;
+      world.gravity.x = 0;
+
+      engine.constraintIterations = 12; // Rigidity of collisions
+      engine.positionIterations = 12; // Avoid overlapping
+      engine.velocityIterations = 12; // Better force handling
 
       const boxesElements = document.querySelectorAll(".box"),
         boxes = [];
