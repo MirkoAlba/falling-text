@@ -170,7 +170,8 @@ table {
 .box--green {
   color: #6cb677;
   border-color: #6cb677;
-  border-radius: 6vw;
+  /* border-radius: 6vw; */
+  border-radius: 40px;
   padding: 1vw 3vw;
 }
 

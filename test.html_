@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Falling text</title>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.20.0/matter.min.js"
+      integrity="sha512-6+7rTBmR6pRFe9fa0vCFjFaHZj/XYa7774bEBzRtxgdpIJOS++R3cKd6Prg/eJmxtsJotd8KAg4g57uuVQsZKA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/poly-decomp@0.3.0/build/decomp.min.js"></script> -->
+
+    <link rel="stylesheet" href="https://use.typekit.net/gwy5vve.css" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="container-boxes" class="container-boxes">
+      <div class="box box--green" id="box-0">
+        <p>NO WONDER</p>
+      </div>
+
+      <div class="box box--green" id="box-1">
+        <p>THE SKIP</p>
+      </div>
+    </div>
+
+    <script>
+      var exports = {};
+      window.addEventListener("load", function () {
+        function mergeObjects(obj1, obj2) {
+          return { ...obj1, ...obj2 };
+        }
+
+        function createRoundedRectangleVertices(
+          x,
+          y,
+          width,
+          height,
+          radius,
+          segments = 12
+        ) {
+          const vertices = [];
+
+          // Funzione per aggiungere un arco con più segmenti per maggiore precisione
+          function addArc(centerX, centerY, startAngle, endAngle) {
+            for (let i = 0; i <= segments; i++) {
+              const angle =
+                startAngle + (endAngle - startAngle) * (i / segments);
+              vertices.push({
+                x: centerX + radius * Math.cos(angle),
+                y: centerY + radius * Math.sin(angle),
+              });
+            }
+          }
+
+          addArc(x + width - radius, y + radius, -Math.PI / 2, 0);
+          addArc(x + width - radius, y + height - radius, 0, Math.PI / 2);
+          addArc(x + radius, y + height - radius, Math.PI / 2, Math.PI);
+          addArc(x + radius, y + radius, Math.PI, (3 * Math.PI) / 2);
+
+          return vertices;
+        }
+
+        function createCollisionBox(x, y, width, height, radius, borderWidth) {
+          // Crea una forma composita per gestire meglio le collisioni
+          const parts = [];
+
+          // Bordo esterno (visibile)
+          const outerVertices = createRoundedRectangleVertices(
+            x,
+            y,
+            width,
+            height,
+            radius,
+            16
+          );
+
+          // Bordo interno (per collisioni più precise)
+          const innerWidth = width - borderWidth * 2;
+          const innerHeight = height - borderWidth * 2;
+          const innerRadius = Math.max(0, radius - borderWidth);
+          const innerVertices = createRoundedRectangleVertices(
+            x + borderWidth,
+            y + borderWidth,
+            innerWidth,
+            innerHeight,
+            innerRadius,
+            16
+          );
+
+          // Crea piccoli sensori agli angoli per migliorare le collisioni
+          const sensorRadius = radius * 0.5;
+          const corners = [
+            { x: x + radius, y: y + radius },
+            { x: x + width - radius, y: y + radius },
+            { x: x + width - radius, y: y + height - radius },
+            { x: x + radius, y: y + height - radius },
+          ];
+
+          corners.forEach((corner) => {
+            const sensor = Bodies.circle(corner.x, corner.y, sensorRadius, {
+              isSensor: true,
+              isStatic: false,
+              render: {
+                visible: false,
+              },
+            });
+            parts.push(sensor);
+          });
+
+          // Crea il corpo principale con la forma esterna
+          const mainBody = Bodies.fromVertices(
+            x + width / 2,
+            y + height / 2,
+            [outerVertices],
+            {
+              render: {
+                visible: true,
+              },
+            }
+          );
+
+          // Crea il corpo per le collisioni con la forma interna
+          const collisionBody = Bodies.fromVertices(
+            x + width / 2,
+            y + height / 2,
+            [innerVertices],
+            {
+              render: {
+                visible: false,
+              },
+            }
+          );
+
+          parts.push(mainBody, collisionBody);
+
+          // Crea un corpo composito
+          return Body.create({
+            parts: parts,
+            friction: 0.01,
+            frictionAir: 0.001,
+            restitution: 0.2,
+            density: 0.001,
+            slop: 0,
+            timeScale: 1,
+          });
+        }
+
+        const DEGREE_45 = Math.PI / 4,
+          DEGREE_60 = Math.PI / 3,
+          DEGREE_90 = Math.PI / 2,
+          DEGREE_180 = Math.PI,
+          DEGREE_270 = (Math.PI * 3) / 2,
+          DEGREE_360 = Math.PI * 2,
+          DEGREE_225 = (Math.PI * 5) / 4;
+
+        var VIEW = {};
+        VIEW.width = window.innerWidth;
+        VIEW.height = window.innerHeight;
+        VIEW.centerX = VIEW.width / 2;
+        VIEW.centerY = VIEW.height / 2;
+        VIEW.offsetX = VIEW.width / 2;
+        VIEW.offsetY = VIEW.height / 2;
+
+        // Matter.js module aliases
+        var Engine = Matter.Engine,
+          Render = Matter.Render,
+          Runner = Matter.Runner,
+          Common = Matter.Common,
+          World = Matter.World,
+          Bodies = Matter.Bodies,
+          Body = Matter.Body,
+          Events = Matter.Events;
+
+        // Common.setDecomp(window.decomp);
+
+        // create engine
+        var engine = Engine.create({
+            enableSleeping: false,
+            constraintIterations: 4,
+            positionIterations: 8,
+            velocityIterations: 8,
+          }),
+          world = engine.world;
+
+        engine.positionIterations = 8;
+        engine.velocityIterations = 8;
+        engine.constraintIterations = 4;
+
+        var debug = false;
+
+        // ?debug
+        if (window.location.search.indexOf("debug") > -1) {
+          debug = true;
+        }
+
+        // create renderer
+        var render = Render.create({
+          engine: engine,
+          element: debug ? document.getElementById("container-boxes") : false,
+          options: {
+            width: window.innerWidth,
+            height: window.innerHeight,
+            background: "#f2f2f2",
+            wireframeBackground: false,
+            wireframes: false,
+            hasBounds: true,
+            enabled: true,
+            showSleeping: debug,
+            showDebug: debug,
+            showBroadphase: debug,
+            showBounds: debug,
+            showVelocity: debug,
+            showCollisions: debug,
+            showAxes: false,
+            showPositions: debug,
+            showAngleIndicator: debug,
+            showIds: debug,
+            showShadows: false,
+            pixelRatio: 2,
+          },
+        });
+
+        Render.run(render);
+
+        // create runner
+        var runner = Runner.create();
+        Runner.run(runner, engine);
+
+        var wallLeft, wallRight, ground;
+
+        // add walls
+        var wallopts = {
+          isStatic: true,
+          restitution: 0.1,
+          friction: 1,
+        };
+
+        var groundopts = {
+          isStatic: true,
+          restitution: 0.1,
+          friction: 1,
+        };
+
+        World.add(world, [
+          // ground
+          (ground = Bodies.rectangle(
+            window.innerWidth / 2,
+            window.innerHeight + 50,
+            window.innerWidth + 200,
+            100,
+            groundopts
+          )),
+          // walls
+          (wallRight = Bodies.rectangle(
+            window.innerWidth + 50,
+            window.innerHeight / 2,
+            100,
+            window.innerHeight,
+            wallopts
+          )), // right
+          (wallLeft = Bodies.rectangle(
+            -50,
+            window.innerHeight / 2,
+            100,
+            window.innerHeight,
+            wallopts
+          )), // left
+        ]);
+
+        // Boxes
+        var defaultBoxOptions = {
+          friction: 0.01,
+          frictionAir: 0.001,
+          restitution: 0.2,
+          density: 0.001,
+          slop: 0,
+        };
+
+        var pixelStartingPoint = -VIEW.height;
+
+        var boxesToRender = [
+          {
+            type: "green",
+            text: "NO WONDER",
+            x: 0,
+            y: pixelStartingPoint,
+            objectOptions: mergeObjects(defaultBoxOptions, {
+              angle: DEGREE_45,
+            }),
+          },
+        ];
+
+        var bodiesDom = document.querySelectorAll(".box"),
+          bodies = [];
+
+        // Init the bodies
+        for (var i = 0, l = bodiesDom.length; i < l; i++) {
+          const computedStyle = window.getComputedStyle(bodiesDom[i]);
+          const box = bodiesDom[i].getBoundingClientRect();
+
+          const bodyDomWidth = box.width;
+          const boxDomHeight = box.height;
+          const borderRadius = parseFloat(computedStyle.borderRadius);
+          const borderWidth = parseFloat(computedStyle.borderWidth);
+          const backgroundColor = computedStyle.backgroundColor;
+          const borderColor = computedStyle.borderColor;
+
+          var body = createCollisionBox(
+            0,
+            0,
+            bodyDomWidth,
+            boxDomHeight,
+            borderRadius,
+            borderWidth
+          );
+
+          body.render.fillStyle = backgroundColor;
+          body.render.strokeStyle = borderColor;
+          body.render.lineWidth = borderWidth;
+
+          var offset = 0;
+          if (i === 1) {
+            offset = 150;
+          }
+
+          Body.setPosition(body, {
+            x:
+              VIEW.centerX +
+              Math.floor(VIEW.width / 2) -
+              VIEW.width / 4 -
+              offset,
+            y:
+              VIEW.centerY +
+              Math.floor(VIEW.height / 2) -
+              VIEW.height / 4 +
+              i * (boxDomHeight + 20),
+          });
+
+          body.domElement = bodiesDom[i];
+          bodiesDom[i].id = body.id;
+          bodies.push(body);
+        }
+
+        World.add(engine.world, bodies);
+
+        // Collision handler
+        Events.on(engine, "collisionStart", function (event) {
+          event.pairs.forEach(function (pair) {
+            console.log(pair);
+            // When two bodies collide, apply a force to them
+            const forceMagnitude = 0.005;
+
+            const angle = Math.atan2(
+              pair.bodyB.position.y - pair.bodyA.position.y,
+              pair.bodyB.position.x - pair.bodyA.position.x
+            );
+
+            Body.applyForce(pair.bodyA, pair.bodyA.position, {
+              x: -Math.cos(angle) * forceMagnitude,
+              y: -Math.sin(angle) * forceMagnitude,
+            });
+
+            Body.applyForce(pair.bodyB, pair.bodyB.position, {
+              x: Math.cos(angle) * forceMagnitude,
+              y: Math.sin(angle) * forceMagnitude,
+            });
+          });
+        });
+
+        engine.world.gravity.y = 1;
+
+        (function update() {
+          bodies.forEach((body) => {
+            if (body.domElement) {
+              const pos = body.position;
+              const angle = body.angle;
+              body.domElement.style.transform = `translate(${
+                pos.x - body.domElement.offsetWidth / 2
+              }px, ${
+                pos.y - body.domElement.offsetHeight / 2
+              }px) rotate(${angle}rad)`;
+            }
+          });
+
+          window.requestAnimationFrame(update);
+        })();
+      });
+    </script>
+  </body>
+</html>
