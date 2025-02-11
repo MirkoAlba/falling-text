@@ -28,11 +28,12 @@
        */
 
       const defaultObjectOptions = {
+        mass: 2, // limit the body mass
         angle: 0,
         restitution: 0.1,
         friction: 0.1,
         frictionAir: 0.06, // increasing the frictionAir will make the boxes fall slower
-        sleepThreshold: 20, // once a body does not update for 20 frames, it will sleep
+        sleepThreshold: 30, // once a body does not update for x frames, it will sleep
       };
 
       const DEGREE_45 = Math.PI / 4,
@@ -1181,7 +1182,7 @@
         world = engine.world;
 
       // Set the speed of the falling texts
-      world.gravity.y = 0.7;
+      world.gravity.y = 1;
       world.gravity.x = 0;
 
       // higher value = more accurate, more calculations = performance hit
@@ -1288,10 +1289,16 @@
 
       Composite.add(world, bodiesToAdd);
 
-      (function rerender() {
-        boxes.forEach((box) => box.render());
+      // Fixed timestep
+      const subSteps = 2;
+      const fixedTimeStep = 1000 / 60; // 60 FPS
 
-        Engine.update(engine);
+      (function rerender() {
+        for (let i = 0; i < subSteps; i++) {
+          boxes.forEach((box) => box.render());
+
+          Engine.update(engine, fixedTimeStep);
+        }
 
         requestAnimationFrame(rerender);
       })();
