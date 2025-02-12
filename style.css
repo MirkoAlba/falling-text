@@ -1,5 +1,3 @@
-/* CSS reset */
-
 html,
 body,
 div,
@@ -143,9 +141,7 @@ table {
   justify-content: center;
   border-style: solid;
   font-family: neue-haas-grotesk-display, sans-serif;
-  border-width: 0.6vw;
   font-weight: 400;
-  font-size: 8vw;
 }
 
 .box p {
@@ -156,7 +152,7 @@ table {
 
 .box--pink {
   color: #f4c6a2;
-  border-color: #f4c6a2;
+  font-size: 8vw;
   min-width: 37vw;
   padding: 1vw 2.5vw;
 }
@@ -169,45 +165,46 @@ table {
 
 .box--green {
   color: #6cb677;
-  border-color: #6cb677;
-  /* border-radius: 6vw; */
+  font-size: 8vw;
   border-radius: 40px;
   padding: 1vw 3vw;
 }
 
+/* Tablet */
+@media (min-width: 768px) {
+  .box--pink {
+    font-size: 8vw;
+    min-width: 37vw;
+    padding: 1vw 2.5vw;
+  }
+
+  .box-green {
+    font-size: 8vw;
+    border-radius: 40px;
+    padding: 1vw 3vw;
+  }
+}
+
 /* Desktop */
 @media (min-width: 1025px) {
-  .box {
-    font-size: 4vw;
-    border-width: 0.25vw;
-  }
-
-  .box--pink {
-    min-width: unset;
-    width: 18vw;
-    padding: 0.5vw 0.25vw;
-  }
-
   .box--pink svg {
     width: 2.5vw;
     height: 2.5vw;
     margin-left: 10px;
   }
 
+  .box--pink {
+    font-size: 4vw;
+    min-width: unset;
+    width: 18vw;
+    padding: 0.5vw 0.25vw;
+    box-shadow: inset 0px 0px 0px 0.35vw #f00;
+  }
+
   .box--green {
+    font-size: 4vw;
     border-radius: 4vw;
     padding: 0.5vw 1.25vw;
-  }
-}
-
-@media (min-width: 1080px) {
-  .box--pink {
-    width: 19vw;
-  }
-}
-
-@media (min-width: 1440px) {
-  .box {
-    font-size: 3.5vw;
+    box-shadow: inset 0px 0px 0px 0.35vw #6cb677;
   }
 }
