@@ -152,9 +152,10 @@ table {
 
 .box--pink {
   color: #f4c6a2;
-  font-size: 8vw;
-  min-width: 37vw;
+  font-size: 9vw;
+  min-width: 40vw;
   padding: 1vw 2.5vw;
+  box-shadow: inset 0px 0px 0px 0.5vw #f4c6a2;
 }
 
 .box--pink svg {
@@ -165,23 +166,23 @@ table {
 
 .box--green {
   color: #6cb677;
-  font-size: 8vw;
-  border-radius: 40px;
+  font-size: 9vw;
+  border-radius: 50px;
   padding: 1vw 3vw;
+  box-shadow: inset 0px 0px 0px 0.5vw #6cb677;
 }
 
 /* Tablet */
 @media (min-width: 768px) {
   .box--pink {
-    font-size: 8vw;
+    font-size: 7vw;
     min-width: 37vw;
     padding: 1vw 2.5vw;
   }
 
-  .box-green {
-    font-size: 8vw;
-    border-radius: 40px;
-    padding: 1vw 3vw;
+  .box--green {
+    font-size: 7vw;
+    padding: 1.25vw 3vw;
   }
 }
 
@@ -197,14 +198,17 @@ table {
     font-size: 4vw;
     min-width: unset;
     width: 18vw;
-    padding: 0.5vw 0.25vw;
-    box-shadow: inset 0px 0px 0px 0.35vw #f00;
+    padding: 0.85vw 1vw;
+    box-shadow: inset 0px 0px 0px 0.35vw #f4c6a2;
   }
 
   .box--green {
     font-size: 4vw;
-    border-radius: 4vw;
-    padding: 0.5vw 1.25vw;
+    padding: 1vw 2vw;
     box-shadow: inset 0px 0px 0px 0.35vw #6cb677;
   }
 }
+
+/* .box--green {
+  opacity: 0 !important;
+} */
